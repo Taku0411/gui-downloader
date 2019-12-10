@@ -1,0 +1,11 @@
+asr
+acodec 音声コーデック　
+ext 拡張子　mp4, webm  m4a, oups
+filesize 容量バイト単位
+format ｛フォーマット｝- 1920x1080 (1080p)
+format_note 1080p60など
+fps
+height
+width
+tbr
+vcodec 
