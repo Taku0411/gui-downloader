@@ -1,5 +1,6 @@
 import youtube_dl
 
+
 class extract_information():
 
     def __init__(self):
@@ -59,6 +60,7 @@ class extract_information():
             ext = element['ext']
             if ext == 'mp4':
                 return_list += [element]
+        print(return_list)
         return return_list
 
     def return_only_m4a(self, formats):

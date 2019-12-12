@@ -1,9 +1,6 @@
-from concurrent import futures
+import configparser
 
-def ppp(a, k):
-    print(a, k)
+cof = configparser.ConfigParser()
+cof.read('settings.ini')
 
-with futures.ThreadPoolExecutor() as exector:
-    for i in range(5):
-        k = i * 2
-        exector.submit(ppp, i, k)
+print(cof.get('DEFAULT', 'Directory'))
