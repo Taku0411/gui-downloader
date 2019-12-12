@@ -4,7 +4,7 @@ import random
 import string
 from concurrent import futures
 import os
-
+from tkinter.ttk import Progressbar
 
 class DLmanager():
 
@@ -14,6 +14,8 @@ class DLmanager():
         self.name = self.random_name()
         self.ext = queue['ext']
         self.bytes = queue['filesize']
+        self.dl_bytes = 0
+        self.dl_percent = 0
         print('id;', self.name)
         self.downloader(queue=queue, n=n, abs_path=abs_path)
         self.marginer(abs_path)
@@ -55,13 +57,18 @@ class DLmanager():
                 i += 1
             _ = futures.as_completed(future_list)
 
-    def download_(self, url, path, headers): #書き込み処理
+    def download_(self, url, path, headers):  # 書き込み処理
         print('writing...', path)
         with open(path, 'wb') as fh:
             for chunk in self.get(url, headers):
-                self.bytes -= len(chunk)
-                print(self.bytes)
+                length = len(chunk)
+                self.dl_bytes += length
+                self.dl_percent += (length * 100 /self.bytes)
+                print(self.dl_percent)
                 fh.write(chunk)
+
+    def return_prtcent(self):
+        return self.dl_percent
 
     def get(self, url, headers):
         req = urllib.request.Request(url=url, headers=headers, method='GET')

@@ -8,7 +8,7 @@ import getpass
 from tkinter.messagebox import showerror
 import sprit_downloader
 import configparser
-from concurrent import futures
+import ffmpeg
 
 
 class Input(tk.Frame):
@@ -73,7 +73,7 @@ class Input(tk.Frame):
 
         def ask_dir():
             directory_change = askdirectory()
-            #print(directory_change)
+            # print(directory_change)
             if directory_input.get() == '':
                 pass
             else:
@@ -136,7 +136,7 @@ class Input(tk.Frame):
         widgets = self.frame_download.winfo_children()
         if widgets:
             for child in widgets:
-                #print(child)
+                # print(child)
                 child.destroy()
         try:
             self.analyser_mp4ANDm4a(self.input_link)
@@ -164,10 +164,10 @@ class Input(tk.Frame):
         for data in self.list:
             format = self.module.return_format(data)
             amount = self.module.get_data_amount(data, round_=True)
-            #print(amount)
+            # print(amount)
             if amount != False:
                 box = tk.Radiobutton(self.frame_download)
-                #print(self.module)
+                # print(self.module)
                 box.configure(text='画質：{}　サイズ:{}Mb'.format(format, amount), variable=self.choosen_format_index,
                               value=self.list.index(data))
                 box.pack()
@@ -219,7 +219,7 @@ class Input(tk.Frame):
         self.title_output = self.title_entry.get()
         if self.title_output == '':
             self.title_output = self.movie_title
-        #print(self.title_output)
+        # print(self.title_output)
         if folder:
             if self.buttton_no != -1:
                 return True
@@ -273,25 +273,37 @@ class Input(tk.Frame):
 
     def download_queue(self):
         queue_list = self.dl_movie()
+
         if queue_list[0] == 1:
             self.download_(queue_list[1])
         if queue_list[0] == 2:
+            list = []           # 1:audio, 2:video
             for queue in queue_list[1:]:
-                self.download_(queue)
+                a = self.download_(queue, rename=False)
+                list += [a]
+            self.join_(list)
         if queue_list[0] == 3:
             self.download_(queue_list[1])
 
-    def download_(self, queue):
-        sl = sprit_downloader.DLmanager(queue, 8, self.output_directory)
-        name = sl.name
-        ext = sl.ext
+    def download_(self, queue, rename=True):
+        instance = sprit_downloader.DLmanager(queue, 8, self.output_directory)
+        name = instance.name
+        ext = instance.ext
         title = self.title_output
         ex_path = self.output_directory + '/' + name + '.' + ext
         output_path = self.output_directory + '/' + title + '.' + ext
-        os.rename(ex_path, output_path)
+        if rename:
+            os.rename(ex_path, output_path)
+        else:
+            return [ex_path, output_path]
 
-
-
+    def join_(self, list):
+        videopath = list[0][0]
+        audiopath = list[1][0]
+        instream1 = ffmpeg.input(videopath)
+        instream2 = ffmpeg.input(audiopath)
+        stream = ffmpeg.output(instream1, instream2, 'output', vcodec='copy', acodec='copy')
+        ffmpeg.run(stream)
 
 
 win = tk.Tk()

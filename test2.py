@@ -1,6 +1,14 @@
-import configparser
+import tkinter as tk
+from tkinter.ttk import Progressbar
+import time
 
-cof = configparser.ConfigParser()
-cof.read('settings.ini')
-
-print(cof.get('DEFAULT', 'Directory'))
+root = tk.Tk()
+pg = Progressbar(root, orient='horizontal', value=0, maximum=100)
+pg.pack()
+i =1
+while i <= 100:
+    pg.configure(value=i)
+    pg.update()
+    i += 1
+    time.sleep(0.02)
+root.mainloop()
