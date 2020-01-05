@@ -46,20 +46,25 @@ class extract_information():
 
     def return_format(self, format):    #動画フォーマットを返す（１０８０Pなど,　音声の場合はtinyを返す・）
         format_note = format['format_note']
-        if format_note == 'tiny':
+        print(format_note.find('tiny'))
+        if format_note.find('tiny') >= 0:
             return '音声'
         else:
             return format_note
 
-    def return_link(self, fomrat):
-        return format['url']
+    def return_link(self, _format):
+        return _format['url']
+
+    def return_vcodec(self, _format):
+        return _format['vcodec']
 
     def return_only_mp4(self, formats):
         return_list = []
         for element in formats:
             ext = element['ext']
             if ext == 'mp4':
-                return_list += [element]
+                if 'avc' in element['vcodec']:
+                    return_list += [element]
         print(return_list)
         return return_list
 
@@ -69,14 +74,15 @@ class extract_information():
             ext = element['ext']
             if ext == 'm4a':
                 return_list += [element]
+        print(return_list)
         return return_list
+
 
 if __name__ == '__main__':
     url = "https://www.youtube.com/watch?v=g96k0UimW-o"
     a = extract_information()
     results = a.extract_(url=url)
     formats = a.extract_formats(results)
-    print(formats)
     mp4 = a.return_only_mp4(formats)
     m4a = a.return_only_m4a(formats)
-    print(mp4[0]['url'])
+    print(m4a)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import tkinter as tk
 from tkinter.filedialog import askdirectory
 import sys
@@ -9,28 +10,34 @@ from tkinter.messagebox import showerror
 import sprit_downloader
 import configparser
 import ffmpeg
+import threading
+from tkinter.ttk import Progressbar
+from tkinter import messagebox
+import time
 
 
 class Input(tk.Frame):
 
     def __init__(self, master=None):
-
-        if os.path.exists('settings.ini'):
+        currentdirectory = os.path.dirname(os.path.abspath(__file__))
+        print(currentdirectory)
+        setting_path = currentdirectory + '/settings.ini'
+        print(setting_path)
+        if os.path.exists(setting_path):
             self.config_ini = configparser.ConfigParser()
-            self.config_ini.read('settings.ini', encoding='utf-8')
+            self.config_ini.read(setting_path, encoding='utf-8')
             user_name = getpass.getuser()
             try:
                 self.setting_directory = self.config_ini.get('DEFAULT', 'Directory').replace('*', user_name)
             except configparser.NoOptionError:
                 self.config_ini.set('DEFAULT', 'Directory', '')
-            #print(self.setting_directory)
 
         else:
             showerror('エラー', 'settins.iniが見つかりません。')
             sys.exit()
 
         tk.Frame.__init__(self, master)
-        master.geometry('400x800')
+        master.geometry('400x500')
         self.frame_input = tk.LabelFrame(master, text='①　URL入力')
         self.frame_download = tk.LabelFrame(master, text='②　画質選択')
         self.frame_seve_dorectory = tk.LabelFrame(master, text='③　保存先選択')
@@ -122,16 +129,30 @@ class Input(tk.Frame):
         paste_button = tk.Button(self.frame_input)
         paste_button.configure(text='paste', command=self.paste)
 
-        input_button = tk.Button(self.frame_input)
-        input_button.configure(text='OK', command=self.set_url)
-        self.input_entry.bind('<Return>', self.set_url)
+        self.input_button = tk.Button(self.frame_input)
+        self.input_button.configure(text='OK', command=self.set_url_callback)
+        self.input_entry.bind('<Return>', self.set_url_callback)
         self.input_entry.focus_set()
 
         self.input_entry.pack()
         paste_button.pack()
-        input_button.pack()
+        self.input_button.pack()
+
+    def set_url_callback(self, *event):
+        self.analyse_gui()
+        self.set_url()
+        self.tktop.destroy()
+
+    def analyse_gui(self):
+        self.tktop = tk.Toplevel()
+        self.tktop.wm_geometry('300x100')
+        self.tktop.configure()
+        self.tktop.update()
+        lb = tk.Label(self.tktop, text='動画解析中...').pack()
+        self.tktop.update()
 
     def set_url(self, *event):
+
         self.input_link = self.input_entry.get()
         widgets = self.frame_download.winfo_children()
         if widgets:
@@ -152,9 +173,10 @@ class Input(tk.Frame):
         self.module = youtube_dl_.extract_information()
         result = self.module.extract_(url)
         formats = self.module.extract_formats(result)
-        self.movie_title = result['title']
-        self.list = self.module.return_only_mp4(formats) + self.module.return_only_m4a(formats)
-
+        self.movie_title = result['title'].replace(chr(165), '').replace('"', '').replace(':', '').replace('*', '').replace('/', '').replace('?', '').replace('<', '').replace('>', '').replace('|', '')
+        movie_list = self.module.return_only_mp4(formats)
+        audio_list = self.module.return_only_m4a(formats)
+        self.list = movie_list + audio_list
         self.title = tk.Label(self.frame_download, text='タイトル:' + self.movie_title)
         self.title.pack()
 
@@ -164,7 +186,10 @@ class Input(tk.Frame):
         for data in self.list:
             format = self.module.return_format(data)
             amount = self.module.get_data_amount(data, round_=True)
-            # print(amount)
+            vcodec = self.module.return_vcodec(data)
+            print(format, amount, vcodec)
+
+            print(self.module.return_link(data))
             if amount != False:
                 box = tk.Radiobutton(self.frame_download)
                 # print(self.module)
@@ -282,11 +307,14 @@ class Input(tk.Frame):
                 a = self.download_(queue, rename=False)
                 list += [a]
             self.join_(list)
+            self.delete_separated_fiiles(list)
         if queue_list[0] == 3:
             self.download_(queue_list[1])
 
     def download_(self, queue, rename=True):
-        instance = sprit_downloader.DLmanager(queue, 8, self.output_directory)
+        widget_progress = tk.Toplevel(self.master)
+        widget_progress.update()
+        instance = sprit_downloader.DLmanager(queue, 10, self.output_directory, master=self.frame_download, widget_progress=widget_progress)
         name = instance.name
         ext = instance.ext
         title = self.title_output
@@ -300,10 +328,26 @@ class Input(tk.Frame):
     def join_(self, list):
         videopath = list[0][0]
         audiopath = list[1][0]
+        outputpath = list[0][1]
         instream1 = ffmpeg.input(videopath)
         instream2 = ffmpeg.input(audiopath)
-        stream = ffmpeg.output(instream1, instream2, 'output', vcodec='copy', acodec='copy')
-        ffmpeg.run(stream)
+        stream = ffmpeg.output(instream1, instream2, outputpath, vcodec='copy', acodec='copy')
+        if os.path.exists(outputpath):
+            res = messagebox.askokcancel('警告', 'ファイルはすでに存在します。上書きしますか？')
+            if res:
+                os.remove(outputpath)
+                time.sleep(1)
+                ffmpeg.run(stream)
+        else:
+            ffmpeg.run(stream)
+
+        print(os.path.exists(outputpath))
+
+    def delete_separated_fiiles(self, list):
+        videopath = list[0][0]
+        audiopath = list[1][0]
+        os.remove(videopath)
+        os.remove(audiopath)
 
 
 win = tk.Tk()

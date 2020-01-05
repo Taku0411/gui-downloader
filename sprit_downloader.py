@@ -1,14 +1,17 @@
+import time
 import urllib.request
 from compat_ import urlopen
 import random
 import string
 from concurrent import futures
 import os
+import tkinter as tk
 from tkinter.ttk import Progressbar
+
 
 class DLmanager():
 
-    def __init__(self, queue, n, abs_path):
+    def __init__(self, queue, n, abs_path, master, widget_progress):
         print('init_succeed')
         print(abs_path)
         self.name = self.random_name()
@@ -16,10 +19,13 @@ class DLmanager():
         self.bytes = queue['filesize']
         self.dl_bytes = 0
         self.dl_percent = 0
+        self.master = master
+        self.widget_progress = widget_progress
         print('id;', self.name)
         self.downloader(queue=queue, n=n, abs_path=abs_path)
         self.marginer(abs_path)
         self.delete_part()
+
 
     def random_name(self):
         randlst = [random.choice(string.ascii_letters + string.digits) for i in range(10)]
@@ -44,6 +50,11 @@ class DLmanager():
         i = 1
         self.output_list = []
         future_list = []
+        self.pg = Progressbar(self.widget_progress, orient='horizontal', mode='indeterminate', value=0, maximum = 0)
+        self.pg.pack()
+        self.lb = tk.Label(self.widget_progress, text='test')
+        self.lb.pack()
+
         with futures.ThreadPoolExecutor(max_workers=10) as executor:
             for part in download_list:
                 headers = {'range': 'bytes={}-{}'.format(part[0], part[1])}
@@ -57,6 +68,8 @@ class DLmanager():
                 i += 1
             _ = futures.as_completed(future_list)
 
+        self.widget_progress.destroy()
+
     def download_(self, url, path, headers):  # 書き込み処理
         print('writing...', path)
         with open(path, 'wb') as fh:
@@ -64,11 +77,13 @@ class DLmanager():
                 length = len(chunk)
                 self.dl_bytes += length
                 self.dl_percent += (length * 100 /self.bytes)
-                print(self.dl_percent)
                 fh.write(chunk)
+        print('finished')
 
-    def return_prtcent(self):
-        return self.dl_percent
+    def progresser(self):
+        self.pg.configure(value=int(self.dl_percent))
+        self.pg.update()
+        self.lb['text'] = '{}bytes ({}%)'.format(self.dl_bytes, self.dl_percent)
 
     def get(self, url, headers):
         req = urllib.request.Request(url=url, headers=headers, method='GET')
@@ -91,6 +106,7 @@ class DLmanager():
                 data = open(part, 'rb')
                 op.write(data.read())
                 op.flush()
+        print('merge finished')
 
     def delete_part(self):
         for part_ in self.output_list:
