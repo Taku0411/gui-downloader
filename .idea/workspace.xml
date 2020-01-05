@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b3c51a82-d8ec-4356-ae9e-4a809689fe28" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ffmpeg.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/untitled.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/untitled.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.ini" beforeDir="false" afterPath="$PROJECT_DIR$/settings.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprit_downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/sprit_downloader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/youtube_dl_.py" beforeDir="false" afterPath="$PROJECT_DIR$/youtube_dl_.py" afterDir="false" />
-    </list>
+    <list default="true" id="b3c51a82-d8ec-4356-ae9e-4a809689fe28" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -212,7 +201,7 @@
       <workItem from="1577782530076" duration="3656000" />
       <workItem from="1578042086731" duration="2000" />
       <workItem from="1578207598679" duration="221000" />
-      <workItem from="1578208154435" duration="384000" />
+      <workItem from="1578208154435" duration="423000" />
     </task>
     <task id="LOCAL-00001" summary="downnload function added">
       <created>1576161983949</created>
@@ -228,7 +217,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576167435148</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="ok">
+      <created>1578208576556</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1578208576556</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -264,7 +260,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="downnload function added" />
     <MESSAGE value="downnload function added(edited)" />
-    <option name="LAST_COMMIT_MESSAGE" value="downnload function added(edited)" />
+    <MESSAGE value="ok" />
+    <option name="LAST_COMMIT_MESSAGE" value="ok" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
