@@ -4,3 +4,4 @@ venv/
 *.bat
 *.vbs
 *.exe
+*.pyc
