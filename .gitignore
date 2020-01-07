@@ -1,7 +1,5 @@
-venv/
-/*/
-*.ini
-*.bat
-*.vbs
-*.exe
-*.pyc
+*
+gui.py
+sprit_downlaoder.py
+youtube_dl_.py
+compat_.py
