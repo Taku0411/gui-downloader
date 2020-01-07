@@ -10,8 +10,6 @@ from tkinter.messagebox import showerror
 import sprit_downloader
 import configparser
 import ffmpeg
-import threading
-from tkinter.ttk import Progressbar
 from tkinter import messagebox
 import time
 
@@ -21,6 +19,7 @@ class Input(tk.Frame):
     def __init__(self, master=None):
         currentdirectory = os.path.dirname(os.path.abspath(__file__))
         print(currentdirectory)
+        os.chdir(currentdirectory)
         setting_path = currentdirectory + '/settings.ini'
         print(setting_path)
         if os.path.exists(setting_path):
@@ -37,7 +36,7 @@ class Input(tk.Frame):
             sys.exit()
 
         tk.Frame.__init__(self, master)
-        master.geometry('400x500')
+        master.geometry('300x600')
         self.frame_input = tk.LabelFrame(master, text='①　URL入力')
         self.frame_download = tk.LabelFrame(master, text='②　画質選択')
         self.frame_seve_dorectory = tk.LabelFrame(master, text='③　保存先選択')
@@ -45,12 +44,12 @@ class Input(tk.Frame):
 
         self.init()
 
-        self.frame_input.pack()
-        self.frame_download.pack()
-        self.frame_seve_dorectory.pack()
-        self.frame_start.pack()
+        self.frame_input.pack(expand=1)
+        self.frame_download.pack(expand=1)
+        self.frame_seve_dorectory.pack(expand=1)
+        self.frame_start.pack(expand=1)
 
-        self.pack()
+
 
     def init(self):
         self.menu()
@@ -96,6 +95,7 @@ class Input(tk.Frame):
 
         pref = tk.Toplevel()
         pref.geometry('200x300')
+        pref.attributes('-topmost', True)
 
         top_menu = tk.Label(pref, text='設定一覧')
         top_menu.pack()
@@ -145,10 +145,10 @@ class Input(tk.Frame):
 
     def analyse_gui(self):
         self.tktop = tk.Toplevel()
-        self.tktop.wm_geometry('300x100')
-        self.tktop.configure()
+        self.tktop.wm_geometry('200x100')
+        self.tktop.attributes('-topmost', True)
         self.tktop.update()
-        lb = tk.Label(self.tktop, text='動画解析中...').pack()
+        lb = tk.Label(self.tktop, text='動画解析中...').pack(expand=1)
         self.tktop.update()
 
     def set_url(self, *event):
@@ -298,6 +298,13 @@ class Input(tk.Frame):
 
     def download_queue(self):
         queue_list = self.dl_movie()
+        self.widget_progress = tk.Toplevel(self.master)
+        self.widget_progress.wm_geometry('200x100')
+        self.downloading_text = tk.StringVar()
+        self.downloading_text.set('ダウンロード中...')
+        lb = tk.Label(self.widget_progress, textvariable=self.downloading_text)
+        lb.pack(expand=1)
+        self.widget_progress.update()
 
         if queue_list[0] == 1:
             self.download_(queue_list[1])
@@ -310,16 +317,18 @@ class Input(tk.Frame):
             self.delete_separated_fiiles(list)
         if queue_list[0] == 3:
             self.download_(queue_list[1])
+        self.widget_progress.destroy()
 
     def download_(self, queue, rename=True):
-        widget_progress = tk.Toplevel(self.master)
-        widget_progress.update()
-        instance = sprit_downloader.DLmanager(queue, 10, self.output_directory, master=self.frame_download, widget_progress=widget_progress)
+
+        instance = sprit_downloader.DLmanager(queue, 10, self.output_directory)
         name = instance.name
         ext = instance.ext
         title = self.title_output
         ex_path = self.output_directory + '/' + name + '.' + ext
         output_path = self.output_directory + '/' + title + '.' + ext
+        self.downloading_text.set('結合中')
+        self.widget_progress.update()
         if rename:
             os.rename(ex_path, output_path)
         else:

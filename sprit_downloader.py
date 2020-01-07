@@ -1,31 +1,24 @@
-import time
 import urllib.request
 from compat_ import urlopen
 import random
 import string
 from concurrent import futures
-import os
-import tkinter as tk
-from tkinter.ttk import Progressbar
+import os, sys
 
 
 class DLmanager():
 
-    def __init__(self, queue, n, abs_path, master, widget_progress):
-        print('init_succeed')
-        print(abs_path)
+    def __init__(self, queue, n, abs_path):
+        self.output_list = []
         self.name = self.random_name()
         self.ext = queue['ext']
-        self.bytes = queue['filesize']
+        self.dlbytes = queue['filesize']
         self.dl_bytes = 0
         self.dl_percent = 0
-        self.master = master
-        self.widget_progress = widget_progress
         print('id;', self.name)
         self.downloader(queue=queue, n=n, abs_path=abs_path)
         self.marginer(abs_path)
         self.delete_part()
-
 
     def random_name(self):
         randlst = [random.choice(string.ascii_letters + string.digits) for i in range(10)]
@@ -44,17 +37,12 @@ class DLmanager():
                 sprit_list += [[a * i + 1, a * (i + 1)]]
         return sprit_list
 
-    def downloader(self, queue, n, abs_path):      #メイン処理ループ、スレッド
+    def downloader(self, queue, n, abs_path):
         download_list = self.spritter(queue, n)
         url = queue['url']
         i = 1
-        self.output_list = []
         future_list = []
-        self.pg = Progressbar(self.widget_progress, orient='horizontal', mode='indeterminate', value=0, maximum = 0)
-        self.pg.pack()
-        self.lb = tk.Label(self.widget_progress, text='test')
-        self.lb.pack()
-
+        print('downloading')
         with futures.ThreadPoolExecutor(max_workers=10) as executor:
             for part in download_list:
                 headers = {'range': 'bytes={}-{}'.format(part[0], part[1])}
@@ -68,22 +56,13 @@ class DLmanager():
                 i += 1
             _ = futures.as_completed(future_list)
 
-        self.widget_progress.destroy()
-
     def download_(self, url, path, headers):  # 書き込み処理
-        print('writing...', path)
         with open(path, 'wb') as fh:
             for chunk in self.get(url, headers):
                 length = len(chunk)
                 self.dl_bytes += length
-                self.dl_percent += (length * 100 /self.bytes)
+                self.dl_percent += (length * 100 /self.dlbytes)
                 fh.write(chunk)
-        print('finished')
-
-    def progresser(self):
-        self.pg.configure(value=int(self.dl_percent))
-        self.pg.update()
-        self.lb['text'] = '{}bytes ({}%)'.format(self.dl_bytes, self.dl_percent)
 
     def get(self, url, headers):
         req = urllib.request.Request(url=url, headers=headers, method='GET')
@@ -100,7 +79,6 @@ class DLmanager():
 
     def marginer(self, abs_path):
         print('file marging')
-        print(self.output_list)
         with open('{}/{}.{}'.format(abs_path, self.name, self.ext), 'wb') as op:
             for part in self.output_list:
                 data = open(part, 'rb')

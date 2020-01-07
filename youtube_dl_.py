@@ -9,17 +9,14 @@ class extract_information():
     def extract_(self, url):  # htmlからデータ抽出
         return self.ydl.extract_info(url, download=False)
 
-    def extract_formats(self, result):  #extractのデータを代入すると動画データのリストを返す4
+    def extract_formats(self, result):
         return result['formats']
 
-#ここまで必須
-
-    def get_title(self, result):    #タイトル取得
+    def get_title(self, result):
         title = result['title']
         return title
 
-
-    def get_data_amount(self, format, round_=False):  #データ容量を返す（Mｂ）
+    def get_data_amount(self, format, round_=False):
         amount = format['filesize']
 
         if round_ is not True:
@@ -32,21 +29,20 @@ class extract_information():
             else:
                 return False
 
-    def is_audio_only(self, format):    #音声のみか
+    def is_audio_only(self, format):
         if format['acodec']:
             return True
         else:
             return False
 
-    def is_video_only(self, format):    #動画のみか（60fps, 1080pは動画のみ。あとで音声とくっつける必要あり）
+    def is_video_only(self, format):
         if format['vcodec']:
             return True
         else:
             return False
 
-    def return_format(self, format):    #動画フォーマットを返す（１０８０Pなど,　音声の場合はtinyを返す・）
+    def return_format(self, format):
         format_note = format['format_note']
-        print(format_note.find('tiny'))
         if format_note.find('tiny') >= 0:
             return '音声'
         else:
@@ -63,9 +59,8 @@ class extract_information():
         for element in formats:
             ext = element['ext']
             if ext == 'mp4':
-                if 'avc' in element['vcodec']:
+                if 'avc'  in element['vcodec']:
                     return_list += [element]
-        print(return_list)
         return return_list
 
     def return_only_m4a(self, formats):
@@ -74,7 +69,6 @@ class extract_information():
             ext = element['ext']
             if ext == 'm4a':
                 return_list += [element]
-        print(return_list)
         return return_list
 
 
@@ -85,4 +79,4 @@ if __name__ == '__main__':
     formats = a.extract_formats(results)
     mp4 = a.return_only_mp4(formats)
     m4a = a.return_only_m4a(formats)
-    print(m4a)
+    print(mp4)

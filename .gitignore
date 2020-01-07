@@ -1,1 +1,6 @@
 venv/
+*/
+*.ini
+*.bat
+*.vbs
+*.exe

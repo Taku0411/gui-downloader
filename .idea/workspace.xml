@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b3c51a82-d8ec-4356-ae9e-4a809689fe28" name="Default Changelist" comment="" />
+    <list default="true" id="b3c51a82-d8ec-4356-ae9e-4a809689fe28" name="Default Changelist" comment="ok">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprit_downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/sprit_downloader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/youtube_dl_.py" beforeDir="false" afterPath="$PROJECT_DIR$/youtube_dl_.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,9 +162,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.gui" />
+        <item itemvalue="Python.test3" />
         <item itemvalue="Python.youtube_dl_" />
         <item itemvalue="Python.test2" />
-        <item itemvalue="Python.test3" />
         <item itemvalue="Python.sprit_downloader" />
       </list>
     </recent_temporary>
@@ -202,6 +207,11 @@
       <workItem from="1578042086731" duration="2000" />
       <workItem from="1578207598679" duration="221000" />
       <workItem from="1578208154435" duration="423000" />
+      <workItem from="1578208737529" duration="2602000" />
+      <workItem from="1578218647894" duration="4470000" />
+      <workItem from="1578408990393" duration="66000" />
+      <workItem from="1578410402660" duration="11000" />
+      <workItem from="1578410687484" duration="805000" />
     </task>
     <task id="LOCAL-00001" summary="downnload function added">
       <created>1576161983949</created>
@@ -293,11 +303,11 @@
     <SUITE FILE_PATH="coverage/untitled$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1575989188881" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/untitled$sprit_downloader.coverage" NAME="sprit_downloader Coverage Results" MODIFIED="1575991652914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/untitled$test.coverage" NAME="test Coverage Results" MODIFIED="1575820150811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/youtube_dl_dev$youtube_dl_.coverage" NAME="youtube_dl_ Coverage Results" MODIFIED="1577783790316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/youtube_dl_dev$gui.coverage" NAME="gui Coverage Results" MODIFIED="1578208539610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/youtube_dl_dev$youtube_dl_.coverage" NAME="youtube_dl_ Coverage Results" MODIFIED="1578218926999" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/youtube_dl_dev$gui.coverage" NAME="gui Coverage Results" MODIFIED="1578410752298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/untitled$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1575979163165" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/youtube_dl_dev$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1577294680658" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/youtube_dl_dev$test3.coverage" NAME="test3 Coverage Results" MODIFIED="1577290109093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/youtube_dl_dev$test3.coverage" NAME="test3 Coverage Results" MODIFIED="1578220277326" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/untitled$youtube_dl_.coverage" NAME="youtube_dl_ Coverage Results" MODIFIED="1575986358996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/untitled$gui.coverage" NAME="gui Coverage Results" MODIFIED="1576051450075" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
